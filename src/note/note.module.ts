@@ -1,16 +1,18 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { CategoryModule } from 'src/category/category.module';
+import { ExchangeHelper } from 'src/utils';
+import { NoteModel, NoteSchema } from './model';
 import { NoteController } from './note.controller';
 import { NoteService } from './note.service';
-import { MongooseModule } from '@nestjs/mongoose';
-import { NoteModel, NoteSchema } from './model';
-import { CategoryModule } from 'src/category/category.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: NoteModel.name, schema: NoteSchema }]),
-    CategoryModule,
+    forwardRef(() => CategoryModule),
   ],
   controllers: [NoteController],
-  providers: [NoteService],
+  providers: [NoteService, ExchangeHelper],
+  exports: [NoteService],
 })
 export class NoteModule {}

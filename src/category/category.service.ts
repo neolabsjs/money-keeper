@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { NoteService } from 'src/note/note.service';
 import { ICategory } from './interface';
 import { CreateCategoryDto } from './dto';
 import { CategoryModel } from './model';
@@ -14,6 +15,7 @@ export class CategoryService {
   constructor(
     @InjectModel(CategoryModel.name)
     private readonly categoryModel: Model<CategoryModel>,
+    private readonly noteService: NoteService,
   ) {}
 
   async getAll(): Promise<ICategory[]> {

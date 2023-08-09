@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { NoteService } from './note.service';
 import { INote } from './interface';
 import { CreateNoteDto } from './dto';
-import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Note')
 @Controller('note')

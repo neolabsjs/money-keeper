@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNumber, IsPositive, Length, Matches } from 'class-validator';
+import { Currencies } from 'src/utils';
 import { NoteType } from '../enum';
 
 export class CreateNoteDto {
@@ -22,4 +23,8 @@ export class CreateNoteDto {
   @IsNumber({ allowInfinity: false, allowNaN: false })
   @IsPositive()
   amount: number;
+
+  @ApiProperty({ example: Currencies.KGS, enum: Currencies })
+  @IsEnum(Currencies)
+  currency: Currencies;
 }
