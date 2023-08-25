@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { INote } from '../interface';
 import { NoteType } from '../enum';
 import { ICategory } from 'src/category/interface';
+import { IUser } from 'src/user/interface';
 
 export class NoteDto implements INote {
   @ApiProperty({ example: '64c3eeb87984df7cca567306' })
@@ -18,4 +19,7 @@ export class NoteDto implements INote {
 
   @ApiProperty({ example: 500 })
   amount: number;
+
+  @ApiProperty({ example: '64c3eeb87984df7cca567306' })
+  user: IUser;
 }

@@ -1,5 +1,6 @@
 import { ICategory } from 'src/category/interface';
 import { NoteType } from '../enum';
+import { IUser } from 'src/user/interface';
 
 export interface INote {
   id: string;
@@ -7,4 +8,5 @@ export interface INote {
   category: ICategory;
   type: NoteType;
   amount: number;
+  user: IUser;
 }

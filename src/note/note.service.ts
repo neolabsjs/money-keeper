@@ -6,6 +6,7 @@ import { CategoryService } from 'src/category/category.service';
 import { NoteModel } from './model';
 import { INote } from './interface';
 import { CreateNoteDto } from './dto';
+import { IUser } from 'src/user/interface';
 
 @Injectable()
 export class NoteService {
@@ -17,11 +18,11 @@ export class NoteService {
     private readonly exchangeHelper: ExchangeHelper,
   ) {}
 
-  async getAll(): Promise<INote[]> {
-    return await this.noteModel.find().populate('category');
+  async getAll(user: IUser): Promise<INote[]> {
+    return await this.noteModel.find({ user }).populate('category');
   }
 
-  async create(data: CreateNoteDto): Promise<INote> {
+  async create(data: CreateNoteDto, user: IUser): Promise<INote> {
     const { title, categoryId, type, amount, currency } = data;
     const category = await this.categoryService.getOne(categoryId);
 
@@ -35,6 +36,7 @@ export class NoteService {
       category,
       type,
       amount: amountKgs,
+      user,
     });
 
     return await newNote.save();

@@ -13,6 +13,7 @@ async function bootstrap() {
     .setTitle('Money Keeper App')
     .setDescription('API documentation of Money Keeper App')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

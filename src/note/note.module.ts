@@ -5,11 +5,13 @@ import { ExchangeHelper } from 'src/utils';
 import { NoteModel, NoteSchema } from './model';
 import { NoteController } from './note.controller';
 import { NoteService } from './note.service';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: NoteModel.name, schema: NoteSchema }]),
     forwardRef(() => CategoryModule),
+    AuthModule,
   ],
   controllers: [NoteController],
   providers: [NoteService, ExchangeHelper],

@@ -1,7 +1,12 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UserService } from 'src/user/user.service';
-import { LoginDto } from './dto';
+import { LoginDto, PayloadDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
@@ -20,13 +25,29 @@ export class AuthService {
       throw new BadRequestException('Email or password does not match');
     }
 
-    const payload = {
-      sub: user.id,
+    const payload: PayloadDto = {
+      sub: user._id as string,
       iat: Date.now(),
       exp: Date.now() + 8 * 60 * 60 * 1000,
     };
 
     const token = this.jwtService.sign(payload);
     return { token };
+  }
+
+  async validate(token: string) {
+    try {
+      const { sub, exp }: PayloadDto = this.jwtService.decode(
+        token.split(' ').pop(),
+      ) as PayloadDto;
+
+      if (Date.now() > exp) {
+        throw new UnauthorizedException();
+      }
+
+      return await this.userService.findById(sub);
+    } catch (err) {
+      throw new UnauthorizedException();
+    }
   }
 }
